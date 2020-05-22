@@ -1,4 +1,4 @@
-#
+# https://github.com/pearsonkyle/Signal-Alignment
 import numpy as np
 from scipy.optimize import minimize
 from scipy.interpolate import interp1d
