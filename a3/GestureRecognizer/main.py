@@ -92,6 +92,8 @@ for gesture_set in map_gesture_sets.values():
 # The k-fold cross validation methods
 
 # TODO: write your own kfolds method here
+import random
+import random
 def generate_kfolds(num_folds, gesture_set, seed=None):
     '''
     Returns a list of folds where each list item is a dict() with key=gesture name and value=selected trial 
@@ -110,7 +112,20 @@ def generate_kfolds(num_folds, gesture_set, seed=None):
                              .format(num_folds, gesture_name, len(trials)))
             
     # TODO
-    list_folds = [] 
+    random.seed(seed)
+    list_folds = []  # a list of dictionaries,  {Gesture Name: a trial}
+    for _ in range(num_folds):
+        list_folds.append(dict())
+
+    for gesture_name, gesture_trials in gesture_set.map_gestures_to_trials.items():
+
+        # randomly pick the test bin
+        bin_indices = [x for x in range(num_folds)]
+        while bin_indices:
+            rand_index = random.randrange(0, len(bin_indices))
+            bin_index = bin_indices[rand_index]
+            list_folds[bin_index][gesture_name] = gesture_trials[bin_index]
+            del bin_indices[rand_index]
     
     check_folds(list_folds) # for debugging. You can comment this out
     return list_folds # each index of the list represents a fold, which contains a map of gesture names to trials
@@ -515,8 +530,8 @@ def find_closest_match_chi_sqr_align_signal(test_trial, template_trials, **kwarg
         
         # Calculate the Euclidean distance between the two signals
         shift = chisqr_align(test_trial_signal, template_trial_signal, [0,-1])
-        template_aligned_signal_shift = template_aligned_signal + shift
-        euclid_distance = distance.euclidean(test_trial_signal, template_aligned_signal)
+        template_aligned_signal_shift = template_trial_signal + shift
+        euclid_distance = distance.euclidean(test_trial_signal, template_aligned_signal_shift)
 
         n_best_list_tuple.append((template_trial, euclid_distance))
     
@@ -544,7 +559,8 @@ gesture_set = grdata.get_gesture_set_with_str(map_gesture_sets, "Jon")
 
 # TODO: switch this to generate_kfolds once you've written that method.
 # For now, you can use our method `generate_kfolds_scikit`
-list_folds = generate_kfolds_scikit(5, gesture_set, seed=5) 
+#list_folds = generate_kfolds_scikit(5, gesture_set, seed=5) 
+list_folds = generate_kfolds(5, gesture_set, seed=5) 
 
 # print out folds (for debugging)
 print("DEBUG: PRINTING OUT FOLDS")

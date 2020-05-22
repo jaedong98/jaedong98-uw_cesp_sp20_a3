@@ -515,8 +515,8 @@ def find_closest_match_chi_sqr_align_signal(test_trial, template_trials, **kwarg
         
         # Calculate the Euclidean distance between the two signals
         shift = chisqr_align(test_trial_signal, template_trial_signal, [0,-1])
-        template_aligned_signal_shift = template_aligned_signal + shift
-        euclid_distance = distance.euclidean(test_trial_signal, template_aligned_signal)
+        template_aligned_signal_shift = template_trial_signal + shift
+        euclid_distance = distance.euclidean(test_trial_signal, template_aligned_signal_shift)
 
         n_best_list_tuple.append((template_trial, euclid_distance))
     
