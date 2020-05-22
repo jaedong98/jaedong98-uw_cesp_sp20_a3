@@ -117,6 +117,10 @@ def generate_kfolds(num_folds, gesture_set, seed=None):
     for _ in range(num_folds):
         list_folds.append(dict())
 
+    def gen_index(num_folds):
+        rand = random.random()
+
+
     for gesture_name, gesture_trials in gesture_set.map_gestures_to_trials.items():
 
         # randomly pick the test bin
@@ -124,7 +128,7 @@ def generate_kfolds(num_folds, gesture_set, seed=None):
         while bin_indices:
             rand_index = random.randrange(0, len(bin_indices))
             bin_index = bin_indices[rand_index]
-            list_folds[bin_index][gesture_name] = gesture_trials[bin_index]
+            list_folds[rand_index][gesture_name] = gesture_trials[bin_index]
             del bin_indices[rand_index]
     
     check_folds(list_folds) # for debugging. You can comment this out
