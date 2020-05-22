@@ -223,7 +223,11 @@ class TrialClassificationResult:
         self.closest_trial = self.n_best_list_sorted[0][0]
         self.score = self.n_best_list_sorted[0][1]
         self.is_correct = test_trial.get_ground_truth_gesture_name() == self.closest_trial.gesture_name
-        
+        self.misclassified_test_trial = None
+        self.misclassified_closest_trial = None
+        if not self.is_correct:
+            self.misclassified_test_trial = test_trial
+            self.misclassified_closest_trial = self.closest_trial
         self.fold_idx = -1
         self.elapsed_time = -1 # elapsed time in seconds
         
