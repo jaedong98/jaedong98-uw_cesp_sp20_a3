@@ -169,7 +169,7 @@ if __name__ == "__main__":
     shifted = shift( signal.gaussian(NPTS, std=4) ,SHIFTVAL) + np.random.normal(1,NOISE,NPTS)
 
     # align the shifted spectrum back to the real
-    s = phase_align(y, shifted, [10,90])
+    s = phase_align(y, shifted, [10,50])
     print('phase shift value to align is',s)
 
     # chi squared alignment at native resolution
